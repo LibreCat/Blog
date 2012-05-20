@@ -86,7 +86,7 @@ post '/post' => sub {
     my $message = params->{message};
     my $date    = params->{date};
     my $user    = session('user');
-    my $unix_time = params->{unix_time} // time;
+    my $unix_time = params->{unix_time} || time;
     my $tags    = comma_separated_list(params->{tags});
 
     Catmandu->store->bag->delete($id);

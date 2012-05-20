@@ -69,6 +69,12 @@
 </header>
 
 [% content %]
+
+<footer>
+ <div class="sixteen columns" style="font-size: 80%; margin-top: 50px;">
+    Powered by <a href="https://github.com/LibreCat">LibreCat</a>/<a href="https://github.com/LibreCat/Catmandu">Catmandu</a>.
+ </div>
+<footer>
 </div>
 
 </body>
