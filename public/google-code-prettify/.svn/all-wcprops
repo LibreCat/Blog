@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 23
+/svn/!svn/ver/222/trunk
+END
+README.html
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/!svn/ver/182/trunk/README.html
+END
+README-zh-Hans.html
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/!svn/ver/107/trunk/README-zh-Hans.html
+END
+COPYING
+K 25
+svn:wc:ra_dav:version-url
+V 31
+/svn/!svn/ver/194/trunk/COPYING
+END
+CHANGES.html
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/!svn/ver/172/trunk/CHANGES.html
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 32
+/svn/!svn/ver/221/trunk/Makefile
+END

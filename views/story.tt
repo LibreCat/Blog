@@ -1,0 +1,38 @@
+<section class="sixteen columns">
+
+<article>
+
+<a href="/story/[% post._id %]"><h3>[% post.title %]</h3></a>
+
+<div class="message">
+ [% post.message %]
+</div>
+
+<div class="tags">
+ [% FOREACH tag IN post.tags %]
+  [% IF loop.count > 1 %]|[% END %]
+  <a href="#">[% tag | html %]</a>
+ [% END %]
+
+ [% IF session.user != "" %]
+   <form action="/post/delete" method="POST" style="margin-top: 20px;">
+    <input type="hidden" name="id" value="[% post._id %]">
+    <input type="submit" value="Delete" class="add">
+   </form>
+ [% END %]
+</div>
+
+<div class="meta">
+Posted by
+<span class="user">
+ [% post.user %]
+</span>
+,
+
+<span class="time">
+ [% post.date %]
+</span>
+</div>
+
+</article>
+</section>

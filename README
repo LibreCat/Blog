@@ -1,0 +1,19 @@
+Dependencies
+-=-=-=-=-=-=
+
+[CPAN]
+Catmandu
+Dancer
+
+[SOFTWARE]
+ElasticSearch
+
+Install
+-=-=-=-
+
+1) Start the elasticsearch on your computer
+2) Run the LibreCat-Blog script 'bin/drop'
+3) Set the correct paths in 'config.yml'
+4) Start the appliaction 'bin/app.pl'
+5) Read your blog 'http://localhost:3000'
+6) Login with any username and password 'letmein' 

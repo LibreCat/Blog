@@ -1,0 +1,7 @@
+#!/bin/bash
+
+curl -XDELETE http://localhost:9200/blog
+
+catmandu data --into-bag data <<EOF
+{"_id":"1337500251-7151","date":"Sun May 20 09:50:51 2012","message":"<p>This is your first post! :)</p>","tags":[],"draft":"false","unix_time":1337500269,"user":"hochstenbach","title":"Hello World!"}
+EOF

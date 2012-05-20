@@ -1,0 +1,5 @@
+store:
+  default:
+    package: ElasticSearch
+    options:
+       index_name: blog

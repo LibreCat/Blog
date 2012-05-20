@@ -1,0 +1,32 @@
+body {
+  font-family: verdana, arial, helvetica;
+}
+
+header .columns {
+ border-bottom: 1px solid #CCCCCC;
+ margin-bottom: 40px;
+}
+
+article {
+ margin-bottom: 20px;
+}
+
+#form_title {
+ width: 100%;
+}
+
+#form_body {
+ width: 100%;
+}
+
+#form_tags {
+ width: 100%;
+}
+
+#form_upload {
+ width: 100%;
+}
+
+.mceContentBody {
+ font-size: 120% !important;
+}

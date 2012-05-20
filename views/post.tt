@@ -1,0 +1,95 @@
+<script type="text/javascript">
+function saveDraft(btn) {
+  var $form = $(btn).parents('form');
+
+  tinyMCE.triggerSave();
+
+  $.ajax({
+       type: "POST",
+       url: $form.attr('action'),
+       data: $form.serialize(),
+       error: function(xhr, status, error) {
+          //do something about the error
+       },
+       success: function(response) {
+          //do something with response
+       }
+ });
+
+ return false;
+}
+
+
+function publishDraft(btn) {
+  var $form = $(btn).parents('form');
+
+  $('#draft').val('false');
+
+  tinyMCE.triggerSave();
+
+  $.ajax({
+       type: "POST",
+       url: $form.attr('action'),
+       data: $form.serialize(),
+       error: function(xhr, status, error) {
+          //do something about the error
+       },
+       success: function(response) {
+          //do something with response
+       }
+ });
+
+ return true;
+}
+ 
+$(document).ready(function(){
+});
+</script>
+
+<section class="sixteen columns">
+
+<form action="post" method="POST" id="myform">
+<input type="hidden" name="id" value="[% id %]">
+<input type="hidden" id="draft" name="draft" value="true">
+
+<div class="field">
+<label>Title:</label>
+<input type="text" name="title" size="80" id="form_title">
+</div>
+
+<div class="field">
+<label>Text:</label>
+<textarea id="form_body" name="message" cols="78" rows="20"></textarea>
+</div>
+
+<div class="field">
+<label>Tags (comma separated):</label>
+<input type="text" name="tags" size="80" id="form_tags">
+</div>
+
+<div class="field">
+<label>Display date:</label>
+<input type="text" name="date" value="[% date | html %]" size="80">
+</div>
+
+<div class="field" style="margin-bottom: 20px;">
+<label>Upload image:</label>
+<input type="file" name="upload" id="form_upload" onchange="fileSelected();">
+<div id="fileName"></div>
+<div id="fileSize"></div>
+<div id="fileType"></div>
+<div class="row">
+  <input type="button" onclick="uploadFile()" value="Upload" />
+</div>
+<div id="progressNumber"></div>
+</div>
+
+<div class="field">
+ <a href="#"><button onclick="history.go(-1); return false;">Cancel</button></a>
+ <a href="#"><button onclick="return saveDraft(this);">Save</button></a>
+ <a href="#"><button onclick="return publishDraft(this);">Publish</button></a>
+</div>
+
+</form>
+
+</section>
