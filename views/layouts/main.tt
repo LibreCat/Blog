@@ -62,7 +62,7 @@
 <header>
  <hgroup>
   <div class="sixteen columns">
-    <h1 class="remove-bottom" style="margin-top:40px"><img src="[% request.uri_base %]/images/logo.png" alt="" style="float:right; margin-bottom:7px;">[% settings.title %]</h1>
+     <a href="[% request.uri_base %]" style="text-decoration: none;"><h1 class="remove-bottom" style="margin-top:40px"><img src="[% request.uri_base %]/images/logo.png" alt="" style="float:right; margin-bottom:7px;">[% settings.title %]</h1></a>
     <h4>[% settings.subtitle %]</h4>
   </div>
  </hgroup>

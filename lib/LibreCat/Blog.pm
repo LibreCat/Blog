@@ -8,7 +8,7 @@ our $VERSION = '0.1';
 $Template::Stash::PRIVATE = undef;
 
 hook 'before' => sub {
-  if (! session('user') && request->path_info =~ m{^/(post|admin)}) {
+  if (! session('user') && request->path_info =~ m{^/(post|admin|upload)}) {
       var requested_path => request->path_info;
       request->path_info('/login');
   }
@@ -46,9 +46,11 @@ get '/' => sub {
 get '/page/:page' => sub {
     my $page_size = config->{page_size};
     my $page  = param('page'); 
-    my $hits  = Catmandu->store->bag->search(query => "draft:false" , start => ($page - 1) * $page_size , limit => $page_size , sort => [{ unix_time => 'desc'}] );
+    my $query = params->{q} // "*:*";
+    my $hits  = Catmandu->store->bag->search(query => "($query) AND draft:false" , start => ($page - 1) * $page_size , limit => $page_size , sort => [{ unix_time => 'desc'}] );
     template 'index' , { posts => $hits->to_array , hits => $hits };
 };
+
 
 get '/story/:name' => sub {
     my $name = param('name'); 
@@ -84,13 +86,21 @@ post '/post' => sub {
     my $message = params->{message};
     my $date    = params->{date};
     my $user    = session('user');
+    my $unix_time = params->{unix_time} // time;
     my $tags    = comma_separated_list(params->{tags});
 
     Catmandu->store->bag->delete($id);
-    Catmandu->store->bag->add( { _id => $id , draft => $draft , user => $user , title => $title , message => $message , tags => $tags , date => $date , unix_time => time });
+    Catmandu->store->bag->add( { _id => $id , draft => $draft , user => $user , title => $title , message => $message , tags => $tags , date => $date , unix_time => $unix_time });
     Catmandu->store->bag->commit;
 
     redirect "/";
+};
+
+post '/post/edit' => sub {
+    my $id   = params->{id};
+    my $post = Catmandu->store->bag->get($id);
+    my $date  = localtime time;
+    template 'post' , { id => $id , date => $date, post => $post };
 };
 
 post '/post/delete' => sub {

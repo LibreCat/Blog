@@ -11,14 +11,21 @@
 <div class="tags">
  [% FOREACH tag IN post.tags %]
   [% IF loop.count > 1 %]|[% END %]
-  <a href="#">[% tag | html %]</a>
+  <a href="[% request.uri_base %]/page/0?q=tags:[% tag | uri %]">[% tag | html %]</a>
  [% END %]
 
  [% IF session.user != "" %]
-   <form action="/post/delete" method="POST" style="margin-top: 20px;">
+ <div class="edit">
+   <form action="/post/edit" method="POST" style="float: left;">
+    <input type="hidden" name="id" value="[% post._id %]">
+    <input type="submit" value="Edit" class="add">
+   </form>
+
+   <form action="/post/delete" method="POST">
     <input type="hidden" name="id" value="[% post._id %]">
     <input type="submit" value="Delete" class="add">
    </form>
+ </div>
  [% END %]
 </div>
 

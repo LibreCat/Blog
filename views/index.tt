@@ -17,7 +17,7 @@
  <div class="tags">
   [% FOREACH tag IN post.tags %]
    [% IF loop.count > 1 %]|[% END %]
-   <a href="#">[% tag | html %]</a>
+   <a href="[% request.uri_base %]/page/0?q=tags:[% tag | uri %]">[% tag | html %]</a>
   [% END %]
  </div>
 
@@ -25,10 +25,17 @@
   Posted by <span class="user">[% post.user %]</span> , <span class="time">[% post.date %]</span>
 
   [% IF session.user != "" %]
-   <form action="/post/delete" method="POST" style="margin-top: 20px;">
+ <div class="edit">
+   <form action="/post/edit" method="POST" style="float: left;">
+    <input type="hidden" name="id" value="[% post._id %]">
+    <input type="submit" value="Edit" class="add">
+   </form>
+
+   <form action="/post/delete" method="POST">
     <input type="hidden" name="id" value="[% post._id %]">
     <input type="submit" value="Delete" class="add">
    </form>
+ </div>
   [% END %]
 
  </article>
@@ -38,10 +45,10 @@
 <section class="sixteen columns">
 
 [% IF hits.next_page %]
- <a href="/page/[% hits.next_page %]" class="pages older">&lt;&lt; Older posts</a>
+ <a href="/page/[% hits.next_page %][% IF params.q %]?q=[% params.q | uri %][% END %]" class="pages older">&lt;&lt; Older posts</a>
 [% END %]
 
 [% IF hits.previous_page %]
- <a href="/page/[% hits.previous_page %]" class="pages newer">Newer posts &gt;&gt;</a>
+ <a href="/page/[% hits.previous_page %][% IF params.q %]?q=[% params.q | uri %][% END %]" class="pages newer">Newer posts &gt;&gt;</a>
 [% END %]
 </section>

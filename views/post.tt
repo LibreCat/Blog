@@ -48,23 +48,24 @@ $(document).ready(function(){
 
 <section class="sixteen columns">
 
-<form action="post" method="POST" id="myform">
+<form action="[% request.uri_base %]/post" method="POST" id="myform">
 <input type="hidden" name="id" value="[% id %]">
 <input type="hidden" id="draft" name="draft" value="true">
+<input type="hidden" name="unix_time" value="[% post.unix_time %]">
 
 <div class="field">
 <label>Title:</label>
-<input type="text" name="title" size="80" id="form_title">
+<input type="text" name="title" size="80" id="form_title" value="[% post.title | html %]">
 </div>
 
 <div class="field">
 <label>Text:</label>
-<textarea id="form_body" name="message" cols="78" rows="20"></textarea>
+<textarea id="form_body" name="message" cols="78" rows="20">[% post.message %]</textarea>
 </div>
 
 <div class="field">
 <label>Tags (comma separated):</label>
-<input type="text" name="tags" size="80" id="form_tags">
+<input type="text" name="tags" size="80" id="form_tags" value="[% post.tags.join(", ") %]">
 </div>
 
 <div class="field">
