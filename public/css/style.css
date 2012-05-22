@@ -30,3 +30,8 @@ article {
 .mceContentBody {
  font-size: 120% !important;
 }
+
+.error {
+ color: #c00;
+ font-weight: bold;
+}

@@ -55,7 +55,10 @@
  </div>
 [% ELSE %]
  <div class="sixteen columns">
-  <a href="/logout" style="float: right; font-size: 8pt;">Log Out</a>
+  <div style="float: right; font-size: 8pt;">
+  <a href="/user">[% session.user | html %]</a>  |
+  <a href="/logout">Log Out</a>
+  </div>
  </div>
 [% END %]
 

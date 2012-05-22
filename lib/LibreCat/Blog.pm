@@ -3,12 +3,13 @@ package LibreCat::Blog;
 
 use Catmandu -load;
 use Dancer ':syntax';
+use Digest::MD5 qw(md5_hex);
 
 our $VERSION = '0.1';
 $Template::Stash::PRIVATE = undef;
 
 hook 'before' => sub {
-  if (! session('user') && request->path_info =~ m{^/(post|admin|upload)}) {
+  if (! session('user') && request->path_info =~ m{^/(post|admin|upload|user)}) {
       var requested_path => request->path_info;
       request->path_info('/login');
   }
@@ -20,10 +21,19 @@ get '/login' => sub {
 };
 
 post '/login' => sub {
-    if (params->{password} eq 'letmein') {
+    my $bag = Catmandu->store->bag('users');
+
+    if ($bag->count == 0 && params->{password} eq 'letmein') {
         session user => params->{user};
         redirect params->{path} || '/';
-    } else {
+    } 
+
+    my $account = $bag->get(params->{user});
+
+    if ($account->{password} eq md5_hex(params->{password})) {
+        redirect params->{path} || '/';
+    }
+    else {
         redirect '/login?failed=1';
     }
 };
@@ -34,6 +44,30 @@ get '/logout' => sub {
 };
 
 # ++++ Authentication
+
+# ---- Users
+
+get '/user' => sub {
+    template 'user' , { user => session('user') };
+};
+
+post '/user' => sub {
+    my $user = session('user');
+    my $password   = params->{password};
+    my $password2  = params->{password2};
+
+    if ($password ne $password2) {
+        template 'user' ,  { user => $user , error => "Passwords don't match"};
+    }
+    else {
+        Catmandu->store->bag('users')->delete($user);
+        Catmandu->store->bag('users')->add({ _id => $user , password => md5_hex($password)});
+        Catmandu->store->bag('users')->commit;
+        redirect "/";
+    }
+};
+
+# ++++ Users
 
 
 # ---- Blog pages
