@@ -31,6 +31,7 @@ post '/login' => sub {
     my $account = $bag->get(params->{user});
 
     if ($account->{password} eq md5_hex(params->{password})) {
+        session user => params->{user};
         redirect params->{path} || '/';
     }
     else {
