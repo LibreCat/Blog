@@ -1,5 +1,5 @@
 package LibreCat::Blog;
-# Author: patrick.hochstenbach@ugent.be
+# Author: Patrick Hochstenbach <Patrick Hochstenbach@UGent.be>
 
 use Catmandu -load;
 use Dancer ':syntax';

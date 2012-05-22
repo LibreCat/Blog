@@ -1,0 +1,84 @@
+#!/bin/sh
+#
+# librecat_blog - this script starts and stops librecat_blog
+#
+# chkconfig: - 85 15
+# description: LibreCat::Blog
+#
+# Author: Nicolas Steenlant <Nicolas Steenlant ay Ugent dot be>
+
+PID=/var/run/plackup.librecat_blog.pid
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ "$NETWORKING" = "no" ] && exit 0
+
+SERVER_PORT=5000
+SERVER_WORKERS=10
+SERVER_USER="apache"
+SERVER_GROUP="apache"
+DANCER_DIR="/opt/librecat_blog"
+DANCER_APP="$DANCER_DIR/bin/app.pl"
+PLACK_ENV="production"
+
+plackup="/usr/local/bin/plackup"
+starman_args="--pid $PID --workers $SERVER_WORKERS --user $SERVER_USER --group $SERVER_GROUP"
+plackup_args="-E $PLACK_ENV -p $SERVER_PORT -s Starman $starman_args -D"
+website="Shelf Number Registration"
+
+lockfile=/var/lock/subsys/plackup.librecat_blog
+
+start() {
+    [ -x $plackup ] || exit 5
+    [ -f $DANCER_APP ] || exit 6
+    echo -n $"Starting $website: "
+    $plackup $plackup_args -a $DANCER_APP 2>&1 > /dev/null
+    retval=$?
+    if [ $retval -eq 0 ]; then
+        success $"$website started"
+        touch $lockfile
+    else
+        failure $"Unable to start"
+    fi
+    echo
+    return $retval
+}
+
+stop() {
+    echo -n $"Stopping $website: "
+    if [ -f $PID ]; then
+        kill `cat $PID` 2>&1> /dev/null
+        retval=$?
+        [ $retval -eq 0 ] && success && rm -f $lockfile
+        echo
+        return $retval
+    fi
+    failure $"pid $PID not found"
+    echo
+    return 1
+}
+
+restart() {
+    stop
+    start
+}
+
+case "$1" in
+    start)
+        $1
+        ;;
+    stop)
+        $1
+        ;;
+    restart)
+        $1
+        ;;
+    *)
+        echo $"Usage: $0 {start|stop|restart}"
+        exit 2
+esac
