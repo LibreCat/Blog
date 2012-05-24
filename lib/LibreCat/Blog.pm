@@ -25,7 +25,7 @@ post '/login' => sub {
 
     if ($bag->count == 0 && params->{password} eq 'letmein') {
         session user => params->{user};
-        redirect params->{path} || '/';
+        return redirect params->{path} || '/';
     } 
 
     my $account = $bag->get(params->{user});
