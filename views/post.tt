@@ -23,8 +23,6 @@ function saveDraft(btn) {
 function publishDraft(btn) {
   var $form = $(btn).parents('form');
 
-  $('#draft').val('false');
-
   tinyMCE.triggerSave();
 
   $.ajax({
@@ -50,7 +48,6 @@ $(document).ready(function(){
 
 <form action="[% request.uri_base %]/post" method="POST" id="myform">
 <input type="hidden" name="id" value="[% id %]">
-<input type="hidden" id="draft" name="draft" value="true">
 <input type="hidden" name="unix_time" value="[% post.unix_time %]">
 
 <div class="field">
@@ -87,8 +84,8 @@ $(document).ready(function(){
 
 <div class="field">
  <a href="#"><button onclick="history.go(-1); return false;">Cancel</button></a>
- <a href="#"><button onclick="return saveDraft(this);">Save</button></a>
- <a href="#"><button onclick="return publishDraft(this);">Publish</button></a>
+ <a href="#"><button name=draft value=true onclick="return saveDraft(this);">Save</button></a>
+ <a href="#"><button name=draft value=false onclick="return publishDraft(this);">Publish</button></a>
 </div>
 
 </form>
